@@ -148,23 +148,23 @@ const Contact: React.FC<ContactProps> = ({ language }) => {
           className="space-y-16"
         >
           {/* Header */}
-          <motion.div variants={itemVariants} className="text-center space-y-4">
-            <h2 className="text-4xl md:text-5xl font-bold text-gray-900">
+          <motion.div variants={itemVariants} className="text-center space-y-4 px-4">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900">
               {content[language].title}
             </h2>
-            <p className="text-xl text-amber-600 font-semibold">
+            <p className="text-lg sm:text-xl text-amber-600 font-semibold">
               {content[language].subtitle}
             </p>
-            <p className="text-lg text-gray-600 max-w-4xl mx-auto leading-relaxed">
+            <p className="text-base sm:text-lg text-gray-600 max-w-4xl mx-auto leading-relaxed">
               {content[language].description}
             </p>
           </motion.div>
 
-          <div className="grid lg:grid-cols-2 gap-12">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-12">
             {/* Contact Form */}
-            <motion.div variants={itemVariants} className="bg-gray-50 rounded-2xl p-8 shadow-lg">
+            <motion.div variants={itemVariants} className="bg-gray-50 rounded-2xl p-6 sm:p-8 shadow-lg order-2 lg:order-1">
               <div className="mb-8">
-                <h3 className="text-2xl font-bold text-gray-900 mb-4">
+                <h3 className="text-xl sm:text-2xl font-bold text-gray-900 mb-4">
                   {language === 'en' ? 'Send us a Message' : 'Envoyez-nous un Message'}
                 </h3>
                 {isSubmitted && (
@@ -181,19 +181,20 @@ const Contact: React.FC<ContactProps> = ({ language }) => {
                 )}
               </div>
 
-              <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-                <div className="grid sm:grid-cols-2 gap-6">
+              <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 sm:space-y-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                    <label className="block text-sm font-medium text-gray-700 mb-2" htmlFor="name">
                       {content[language].form.name}
                     </label>
                     <div className="relative">
                       <User className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
                       <input
+                        id="name"
                         {...register('name', { required: content[language].form.required })}
                         type="text"
                         placeholder={content[language].form.namePlaceholder}
-                        className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent"
+                        className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent text-base"
                       />
                     </div>
                     {errors.name && (
@@ -202,12 +203,13 @@ const Contact: React.FC<ContactProps> = ({ language }) => {
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                    <label className="block text-sm font-medium text-gray-700 mb-2" htmlFor="email">
                       {content[language].form.email}
                     </label>
                     <div className="relative">
                       <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
                       <input
+                        id="email"
                         {...register('email', {
                           required: content[language].form.required,
                           pattern: {
@@ -217,7 +219,7 @@ const Contact: React.FC<ContactProps> = ({ language }) => {
                         })}
                         type="email"
                         placeholder={content[language].form.emailPlaceholder}
-                        className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent"
+                        className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent text-base"
                       />
                     </div>
                     {errors.email && (
@@ -227,14 +229,15 @@ const Contact: React.FC<ContactProps> = ({ language }) => {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium text-gray-700 mb-2" htmlFor="subject">
                     {content[language].form.subject}
                   </label>
                   <input
+                    id="subject"
                     {...register('subject', { required: content[language].form.required })}
                     type="text"
                     placeholder={content[language].form.subjectPlaceholder}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent text-base"
                   />
                   {errors.subject && (
                     <p className="mt-1 text-sm text-red-600">{errors.subject.message}</p>
@@ -242,16 +245,17 @@ const Contact: React.FC<ContactProps> = ({ language }) => {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium text-gray-700 mb-2" htmlFor="message">
                     {content[language].form.message}
                   </label>
                   <div className="relative">
                     <MessageSquare className="absolute left-3 top-3 text-gray-400 w-5 h-5" />
                     <textarea
+                      id="message"
                       {...register('message', { required: content[language].form.required })}
-                      rows={6}
+                      rows={5}
                       placeholder={content[language].form.messagePlaceholder}
-                      className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent resize-none"
+                      className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent resize-none text-base"
                     />
                   </div>
                   {errors.message && (
@@ -264,7 +268,7 @@ const Contact: React.FC<ContactProps> = ({ language }) => {
                   whileTap={{ scale: 0.98 }}
                   type="submit"
                   disabled={isSubmitting}
-                  className="w-full flex items-center justify-center space-x-2 bg-amber-600 text-white py-3 px-6 rounded-lg font-semibold hover:bg-amber-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                  className="w-full flex items-center justify-center space-x-2 bg-amber-600 text-white py-3 px-6 rounded-lg font-semibold hover:bg-amber-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors min-h-[48px] touch-manipulation"
                 >
                   <Send className="w-5 h-5" />
                   <span>
@@ -278,29 +282,29 @@ const Contact: React.FC<ContactProps> = ({ language }) => {
             </motion.div>
 
             {/* Contact Information */}
-            <motion.div variants={itemVariants} className="space-y-8">
+            <motion.div variants={itemVariants} className="space-y-6 sm:space-y-8 order-1 lg:order-2">
               {/* Offices */}
               <div className="space-y-6">
-                <h3 className="text-2xl font-bold text-gray-900">
+                <h3 className="text-xl sm:text-2xl font-bold text-gray-900">
                   {language === 'en' ? 'Our Offices' : 'Nos Bureaux'}
                 </h3>
                 {content[language].offices.map((office) => (
-                  <div key={office.title} className="bg-gray-50 rounded-xl p-6 border border-gray-200">
-                    <h4 className="text-lg font-bold text-gray-900 mb-3">{office.title}</h4>
+                  <div key={office.title} className="bg-gray-50 rounded-xl p-4 sm:p-6 border border-gray-200">
+                    <h4 className="text-base sm:text-lg font-bold text-gray-900 mb-3">{office.title}</h4>
                     <div className="space-y-3">
                       <div className="flex items-start space-x-3">
                         <MapPin className="w-5 h-5 text-amber-600 mt-1 flex-shrink-0" />
-                        <p className="text-gray-700 whitespace-pre-line">{office.address}</p>
+                        <p className="text-gray-700 whitespace-pre-line text-sm sm:text-base">{office.address}</p>
                       </div>
                       <div className="flex items-center space-x-3">
                         <Phone className="w-5 h-5 text-amber-600 flex-shrink-0" />
-                        <a href={`tel:${office.phone}`} className="text-gray-700 hover:text-amber-600 transition-colors">
+                        <a href={`tel:${office.phone}`} className="text-gray-700 hover:text-amber-600 transition-colors text-sm sm:text-base">
                           {office.phone}
                         </a>
                       </div>
                       <div className="flex items-center space-x-3">
                         <Mail className="w-5 h-5 text-amber-600 flex-shrink-0" />
-                        <a href={`mailto:${office.email}`} className="text-gray-700 hover:text-amber-600 transition-colors">
+                        <a href={`mailto:${office.email}`} className="text-gray-700 hover:text-amber-600 transition-colors text-sm sm:text-base">
                           {office.email}
                         </a>
                       </div>
@@ -311,15 +315,15 @@ const Contact: React.FC<ContactProps> = ({ language }) => {
 
               {/* Direct Contacts */}
               <div className="space-y-6">
-                <h3 className="text-2xl font-bold text-gray-900">
+                <h3 className="text-xl sm:text-2xl font-bold text-gray-900">
                   {language === 'en' ? 'Direct Contacts' : 'Contacts Directs'}
                 </h3>
-                <div className="grid sm:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                   {content[language].contacts.map((contact) => (
-                    <div key={contact.title} className="bg-white rounded-lg p-4 border border-gray-200 shadow-sm">
-                      <h4 className="font-bold text-gray-900">{contact.title}</h4>
-                      <p className="text-sm text-gray-600 mb-2">{contact.department}</p>
-                      <a href={`tel:${contact.phone}`} className="text-amber-600 hover:text-amber-700 font-medium">
+                    <div key={contact.title} className="bg-white rounded-lg p-3 sm:p-4 border border-gray-200 shadow-sm">
+                      <h4 className="font-bold text-gray-900 text-sm sm:text-base">{contact.title}</h4>
+                      <p className="text-xs sm:text-sm text-gray-600 mb-2">{contact.department}</p>
+                      <a href={`tel:${contact.phone}`} className="text-amber-600 hover:text-amber-700 font-medium text-sm sm:text-base">
                         {contact.phone}
                       </a>
                     </div>

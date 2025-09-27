@@ -8,6 +8,7 @@ interface OptimizedImageProps {
   height?: number;
   lazy?: boolean;
   priority?: boolean;
+  sizes?: string;
 }
 
 const OptimizedImage: React.FC<OptimizedImageProps> = ({
@@ -17,10 +18,12 @@ const OptimizedImage: React.FC<OptimizedImageProps> = ({
   width,
   height,
   lazy = true,
-  priority = false
+  priority = false,
+  sizes = '(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw'
 }) => {
   const [isLoaded, setIsLoaded] = useState(false);
   const [isInView, setIsInView] = useState(!lazy || priority);
+  const [hasError, setHasError] = useState(false);
   const imgRef = useRef<HTMLImageElement>(null);
 
   useEffect(() => {
@@ -43,32 +46,39 @@ const OptimizedImage: React.FC<OptimizedImageProps> = ({
     return () => observer.disconnect();
   }, [lazy, priority]);
 
-  // Generate WebP and fallback sources
-  const webpSrc = src.replace(/\.(jpg|jpeg|png)$/i, '.webp');
-  const avifSrc = src.replace(/\.(jpg|jpeg|png)$/i, '.avif');
+  const handleError = () => {
+    setHasError(true);
+    setIsLoaded(true);
+  };
 
   return (
-    <div ref={imgRef} className={`relative overflow-hidden ${className}`}>
+    <div ref={imgRef} className={`relative overflow-hidden`}>
       {isInView && (
-        <picture>
-          <source srcSet={avifSrc} type="image/avif" />
-          <source srcSet={webpSrc} type="image/webp" />
-          <img
-            src={src}
-            alt={alt}
-            width={width}
-            height={height}
-            loading={priority ? 'eager' : 'lazy'}
-            decoding="async"
-            onLoad={() => setIsLoaded(true)}
-            className={`transition-opacity duration-300 ${
-              isLoaded ? 'opacity-100' : 'opacity-0'
-            } ${className}`}
-          />
-        </picture>
+        <>
+          {!hasError ? (
+            <img
+              src={src}
+              alt={alt}
+              width={width}
+              height={height}
+              sizes={sizes}
+              loading={priority ? 'eager' : 'lazy'}
+              decoding="async"
+              onLoad={() => setIsLoaded(true)}
+              onError={handleError}
+              className={`transition-opacity duration-300 ${
+                isLoaded ? 'opacity-100' : 'opacity-0'
+              } ${className}`}
+            />
+          ) : (
+            <div className={`bg-gray-200 flex items-center justify-center ${className}`}>
+              <span className="text-gray-500 text-sm">Image unavailable</span>
+            </div>
+          )}
+        </>
       )}
-      {!isLoaded && (
-        <div className="absolute inset-0 bg-gray-200 animate-pulse" />
+      {!isLoaded && !hasError && (
+        <div className={`bg-gray-200 animate-pulse ${className}`} />
       )}
     </div>
   );

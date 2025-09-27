@@ -2,6 +2,7 @@ import React, { useState, Suspense } from 'react';
 import Header from './components/Header';
 import Hero from './components/Hero';
 import LoadingSpinner from './components/LoadingSpinner';
+import { prefersReducedMotion } from './utils/performanceOptimizations';
 
 // Lazy-loaded components
 const LazyAbout = React.lazy(() => import('./components/About'));
@@ -16,13 +17,24 @@ const LazyFooter = React.lazy(() => import('./components/Footer'));
 
 function App() {
   const [language, setLanguage] = useState<'en' | 'fr'>('en');
+  const reducedMotion = prefersReducedMotion();
 
   React.useEffect(() => {
     document.title =
       language === 'en'
         ? 'Bridgelink Mineral Consultants Ltd - Mining Excellence in Zambia & DRC'
         : 'Bridgelink Mineral Consultants Ltd - Excellence Minière en Zambie et RDC';
+    
+    // Set lang attribute for accessibility
+    document.documentElement.lang = language;
   }, [language]);
+
+  // Optimize loading for mobile
+  const LoadingFallback = () => (
+    <div className="flex items-center justify-center py-12 sm:py-20">
+      <LoadingSpinner />
+    </div>
+  );
 
   return (
     <div className="min-h-screen bg-white">
@@ -31,39 +43,39 @@ function App() {
       <Hero language={language} />
 
       {/* Lazy-loaded sections individually */}
-      <Suspense fallback={<LoadingSpinner />}>
+      <Suspense fallback={<LoadingFallback />}>
         <LazyAbout language={language} />
       </Suspense>
 
-      <Suspense fallback={<LoadingSpinner />}>
+      <Suspense fallback={<LoadingFallback />}>
         <LazyServices language={language} />
       </Suspense>
 
-      <Suspense fallback={<LoadingSpinner />}>
+      <Suspense fallback={<LoadingFallback />}>
         <LazyProjects language={language} />
       </Suspense>
 
-      <Suspense fallback={<LoadingSpinner />}>
+      <Suspense fallback={<LoadingFallback />}>
         <LazyStatistics language={language} />
       </Suspense>
 
-      <Suspense fallback={<LoadingSpinner />}>
+      <Suspense fallback={<LoadingFallback />}>
         <LazyGallery language={language} />
       </Suspense>
 
-      <Suspense fallback={<LoadingSpinner />}>
+      <Suspense fallback={<LoadingFallback />}>
         <LazyStrategy language={language} />
       </Suspense>
 
-      <Suspense fallback={<LoadingSpinner />}>
+      <Suspense fallback={<LoadingFallback />}>
         <LazyGovernance language={language} />
       </Suspense>
 
-      <Suspense fallback={<LoadingSpinner />}>
+      <Suspense fallback={<LoadingFallback />}>
         <LazyContact language={language} />
       </Suspense>
 
-      <Suspense fallback={<LoadingSpinner />}>
+      <Suspense fallback={<LoadingFallback />}>
         <LazyFooter language={language} />
       </Suspense>
     </div>

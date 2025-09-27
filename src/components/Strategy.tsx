@@ -178,46 +178,46 @@ const Strategy: React.FC<StrategyProps> = ({ language }) => {
           className="space-y-16"
         >
           {/* Header */}
-          <motion.div variants={itemVariants} className="text-center space-y-4">
-            <h2 className="text-4xl md:text-5xl font-bold text-gray-900">
+          <motion.div variants={itemVariants} className="text-center space-y-4 px-4">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900">
               {content[language].title}
             </h2>
-            <p className="text-xl text-amber-600 font-semibold">
+            <p className="text-lg sm:text-xl text-amber-600 font-semibold">
               {content[language].subtitle}
             </p>
-            <p className="text-lg text-gray-600 max-w-4xl mx-auto leading-relaxed">
+            <p className="text-base sm:text-lg text-gray-600 max-w-4xl mx-auto leading-relaxed">
               {content[language].description}
             </p>
           </motion.div>
 
           {/* Strategy Timeline */}
-          <div className="space-y-8">
+          <div className="space-y-6 sm:space-y-8">
             {content[language].strategies.map((strategy) => (
               <motion.div
                 key={strategy.title}
                 variants={itemVariants}
                 whileHover={{ y: -5 }}
-                className="bg-gray-50 rounded-2xl p-8 shadow-lg border border-gray-100 group hover:shadow-xl transition-all duration-300"
+                className="bg-gray-50 rounded-2xl p-6 sm:p-8 shadow-lg border border-gray-100 group hover:shadow-xl transition-all duration-300"
               >
-                <div className="flex flex-col lg:flex-row lg:items-center lg:space-x-8">
-                  <div className="flex items-center space-x-4 mb-6 lg:mb-0">
-                    <div className={`w-16 h-16 bg-gradient-to-r ${strategy.color} rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform`}>
+                <div className="flex flex-col xl:flex-row xl:items-center xl:space-x-8">
+                  <div className="flex flex-col sm:flex-row items-start sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mb-6 xl:mb-0">
+                    <div className={`w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-r ${strategy.color} rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform flex-shrink-0`}>
                       <strategy.icon className="w-8 h-8 text-white" />
                     </div>
                     <div>
-                      <div className="text-sm font-semibold text-gray-500 uppercase tracking-wide">
+                      <div className="text-xs sm:text-sm font-semibold text-gray-500 uppercase tracking-wide">
                         {strategy.period}
                       </div>
-                      <h3 className="text-xl font-bold text-gray-900">{strategy.title}</h3>
+                      <h3 className="text-lg sm:text-xl font-bold text-gray-900">{strategy.title}</h3>
                     </div>
                   </div>
                   
                   <div className="flex-1">
-                    <div className="grid sm:grid-cols-2 gap-3">
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-2 sm:gap-3">
                       {strategy.goals.map((goal, idx) => (
                         <div key={idx} className="flex items-start space-x-3">
                           <div className="w-2 h-2 bg-amber-500 rounded-full mt-2 flex-shrink-0" />
-                          <span className="text-gray-700 leading-relaxed">{goal}</span>
+                          <span className="text-gray-700 leading-relaxed text-sm sm:text-base">{goal}</span>
                         </div>
                       ))}
                     </div>
@@ -228,23 +228,23 @@ const Strategy: React.FC<StrategyProps> = ({ language }) => {
           </div>
 
           {/* Strategic Focus Areas */}
-          <motion.div variants={itemVariants} className="bg-gradient-to-r from-amber-50 to-orange-50 rounded-3xl p-8 md:p-12">
-            <h3 className="text-3xl font-bold text-gray-900 text-center mb-12">
+          <motion.div variants={itemVariants} className="bg-gradient-to-r from-amber-50 to-orange-50 rounded-3xl p-6 sm:p-8 md:p-12">
+            <h3 className="text-2xl sm:text-3xl font-bold text-gray-900 text-center mb-8 sm:mb-12 px-4">
               {content[language].focus.title}
             </h3>
-            <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
               {content[language].focus.areas.map((area) => (
                 <motion.div
                   key={area.title}
                   variants={itemVariants}
                   whileHover={{ scale: 1.05 }}
-                  className="bg-white rounded-xl p-6 shadow-lg border border-gray-100 text-center group hover:shadow-xl transition-all duration-300"
+                  className="bg-white rounded-xl p-4 sm:p-6 shadow-lg border border-gray-100 text-center group hover:shadow-xl transition-all duration-300"
                 >
-                  <div className="w-16 h-16 bg-gradient-to-r from-amber-500 to-orange-600 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform">
+                  <div className="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-r from-amber-500 to-orange-600 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform">
                     <area.icon className="w-8 h-8 text-white" />
                   </div>
-                  <h4 className="text-lg font-bold text-gray-900 mb-3">{area.title}</h4>
-                  <p className="text-gray-600 text-sm leading-relaxed">{area.description}</p>
+                  <h4 className="text-base sm:text-lg font-bold text-gray-900 mb-3">{area.title}</h4>
+                  <p className="text-gray-600 text-xs sm:text-sm leading-relaxed">{area.description}</p>
                 </motion.div>
               ))}
             </div>

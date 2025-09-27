@@ -79,3 +79,35 @@ export const optimizeScroll = () => {
   
   return onScroll;
 };
+
+// Reduce motion for users who prefer it
+export const getReducedMotionSettings = () => {
+  const prefersReduced = prefersReducedMotion();
+  return {
+    duration: prefersReduced ? 0.1 : 0.6,
+    scale: prefersReduced ? 1 : 1.05,
+    y: prefersReduced ? 0 : 30,
+    staggerChildren: prefersReduced ? 0 : 0.2
+  };
+};
+
+// Touch-friendly button sizing
+export const getTouchFriendlySize = () => {
+  return 'min-h-[44px] min-w-[44px]'; // iOS HIG recommendation
+};
+
+// Responsive text sizing
+export const getResponsiveTextSize = (base: string) => {
+  const sizes = {
+    'text-xs': 'text-xs sm:text-sm',
+    'text-sm': 'text-sm sm:text-base',
+    'text-base': 'text-base sm:text-lg',
+    'text-lg': 'text-lg sm:text-xl',
+    'text-xl': 'text-xl sm:text-2xl',
+    'text-2xl': 'text-2xl sm:text-3xl',
+    'text-3xl': 'text-3xl sm:text-4xl',
+    'text-4xl': 'text-4xl sm:text-5xl',
+    'text-5xl': 'text-5xl sm:text-6xl'
+  };
+  return sizes[base as keyof typeof sizes] || base;
+};
