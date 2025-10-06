@@ -8,6 +8,8 @@ interface StrategyProps {
 }
 
 const Strategy: React.FC<StrategyProps> = ({ language }) => {
+  const shouldReduceMotion = prefersReducedMotion();
+
   const content = {
     en: {
       title: 'Strategy & Goals',
@@ -70,8 +72,6 @@ const Strategy: React.FC<StrategyProps> = ({ language }) => {
             description: 'Developing coltan resources to meet growing global demand'
           },
           {
-  const shouldReduceMotion = prefersReducedMotion();
-
             icon: Globe,
             title: 'Cobalt Innovation',
             description: 'Leading cobalt extraction innovation for electric vehicle markets'
@@ -225,31 +225,30 @@ const Strategy: React.FC<StrategyProps> = ({ language }) => {
                       ))}
                     </div>
                   </div>
-              transition={{ duration: shouldReduceMotion ? 0.1 : 0.6, delay: shouldReduceMotion ? 0 : index * 0.2 }}
+                </div>
               </motion.div>
-              className="bg-white/10 backdrop-blur-sm p-6 sm:p-8 rounded-xl border border-white/20 hover:bg-white/15 transition-all duration-300"
+            ))}
           </div>
 
-                <strategy.icon className="h-10 w-10 sm:h-12 sm:w-12 text-amber-400 mb-3 sm:mb-4" />
-                <h3 className="text-lg sm:text-xl font-semibold mb-2 sm:mb-3">{strategy.title}</h3>
-                <p className="text-gray-300 leading-relaxed text-sm sm:text-base">{strategy.description}</p>
+          {/* Strategic Focus Areas */}
+          <motion.div variants={itemVariants} className="mt-12 sm:mt-16">
+            <h3 className="text-2xl sm:text-3xl font-bold mb-8 sm:mb-12 text-center">
               {content[language].focus.title}
             </h3>
-              <ul className="space-y-1 sm:space-y-2">
-              {content[language].focus.areas.map((area) => (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
+              {content[language].focus.areas.map((area, index) => (
                 <motion.div
                   key={area.title}
                   variants={itemVariants}
                   whileHover={{ scale: 1.05 }}
-                    transition={{ duration: shouldReduceMotion ? 0.1 : 0.4, delay: shouldReduceMotion ? 0 : (index * 0.2) + (featureIndex * 0.1) }}
+                  transition={{ duration: shouldReduceMotion ? 0.1 : 0.6, delay: shouldReduceMotion ? 0 : index * 0.2 }}
+                  className="bg-white/10 backdrop-blur-sm p-6 sm:p-8 rounded-xl border border-white/20 hover:bg-white/15 transition-all duration-300"
                 >
-                  <div className="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-r from-amber-500 to-orange-600 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform">
-                    <area.icon className="w-8 h-8 text-white" />
-                    <CheckCircle className="h-3 w-3 sm:h-4 sm:w-4 text-amber-400 flex-shrink-0" />
-                    <span className="text-gray-300 text-sm sm:text-base">{feature}</span>
-                  <p className="text-gray-600 text-xs sm:text-sm leading-relaxed">{area.description}</p>
-          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-3 sm:mb-4">Our Strategy</h2>
-          <p className="text-base sm:text-lg lg:text-xl text-gray-300 max-w-3xl mx-auto px-4">
+                  <area.icon className="h-10 w-10 sm:h-12 sm:w-12 text-amber-400 mb-3 sm:mb-4" />
+                  <h3 className="text-lg sm:text-xl font-semibold mb-2 sm:mb-3">{area.title}</h3>
+                  <p className="text-gray-300 leading-relaxed text-sm sm:text-base">{area.description}</p>
+                </motion.div>
+              ))}
             </div>
           </motion.div>
         </motion.div>
@@ -258,4 +257,4 @@ const Strategy: React.FC<StrategyProps> = ({ language }) => {
   );
 };
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
+export default Strategy;
