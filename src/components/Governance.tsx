@@ -8,6 +8,8 @@ interface GovernanceProps {
 }
 
 const Governance: React.FC<GovernanceProps> = ({ language }) => {
+  const shouldReduceMotion = prefersReducedMotion();
+
   const content = {
     en: {
       title: 'Corporate Governance',
@@ -63,8 +65,6 @@ const Governance: React.FC<GovernanceProps> = ({ language }) => {
         title: 'Key Policies & Frameworks',
         items: [
           { icon: CheckCircle, title: 'Anti-Corruption Policy', status: 'Implemented' },
-  const shouldReduceMotion = prefersReducedMotion();
-
           { icon: CheckCircle, title: 'Risk Management Framework', status: 'Active' },
           { icon: CheckCircle, title: 'Environmental Compliance', status: 'Monitored' },
           { icon: AlertTriangle, title: 'Safety Management System', status: 'Priority' }
@@ -254,19 +254,10 @@ const Governance: React.FC<GovernanceProps> = ({ language }) => {
               </h3>
               <p className="text-base sm:text-lg md:text-xl leading-relaxed opacity-90">
                 {language === 'en' 
-              transition={{ duration: shouldReduceMotion ? 0.1 : 0.6, delay: shouldReduceMotion ? 0 : index * 0.1 }}
+                  ? 'We are committed to maintaining the highest standards of corporate governance, ensuring transparency, accountability, and sustainable value creation for all stakeholders.'
                   : 'Nous nous engageons à maintenir les plus hauts standards de gouvernance d\'entreprise, assurant transparence, responsabilité et création de valeur durable pour toutes les parties prenantes.'
-              className="bg-white p-6 sm:p-8 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 text-center group"
+                }
               </p>
-              <div className="flex justify-center">
-                <principle.icon className="h-10 w-10 sm:h-12 sm:w-12 text-amber-600 mx-auto group-hover:text-amber-700 transition-colors duration-300" />
-                  whileHover={{ scale: 1.05 }}
-              <h3 className="text-lg sm:text-xl font-semibold text-gray-900 mb-3 sm:mb-4 group-hover:text-amber-600 transition-colors duration-300">
-                  className="bg-white text-amber-600 px-6 sm:px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors touch-manipulation"
-                >
-              <p className="text-sm sm:text-base text-gray-600 leading-relaxed">
-          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-3 sm:mb-4">Governance & Ethics</h2>
-          <p className="text-base sm:text-lg lg:text-xl text-gray-600 max-w-3xl mx-auto px-4">
             </div>
           </motion.div>
         </motion.div>
@@ -275,4 +266,4 @@ const Governance: React.FC<GovernanceProps> = ({ language }) => {
   );
 };
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
+export default Governance;
