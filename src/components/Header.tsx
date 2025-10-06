@@ -68,14 +68,14 @@ const Header: React.FC<HeaderProps> = ({ language, onLanguageChange }) => {
     <motion.header
       initial={{ y: -100 }}
       animate={{ y: 0 }}
-      className={`fixed w-full z-50 transition-all duration-300 ${
+      className={`fixed w-full z-50 transition-all duration-300 will-change-transform ${
         isScrolled ? 'bg-white shadow-lg' : 'bg-white/95 backdrop-blur-sm'
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center py-4">
           {/* Logo */}
-          <motion.div whileHover={{ scale: 1.02 }} className="flex items-center space-x-2 min-w-0">
+          <motion.div whileHover={{ scale: 1.02 }} className="flex items-center space-x-2 min-w-0 flex-shrink-0">
             <div className="w-8 h-8 sm:w-10 sm:h-10 bg-gradient-to-r from-amber-500 to-orange-600 rounded-lg flex items-center justify-center flex-shrink-0">
               <span className="text-white font-bold text-sm sm:text-lg">BM</span>
             </div>
@@ -86,7 +86,7 @@ const Header: React.FC<HeaderProps> = ({ language, onLanguageChange }) => {
           </motion.div>
 
           {/* Desktop Navigation */}
-          <nav className="hidden lg:flex items-center space-x-8">
+          <nav className="hidden lg:flex items-center space-x-6 lg:space-x-8">
             {navigation[language].map((item) => (
               <button
                 key={item.name}
@@ -140,7 +140,7 @@ const Header: React.FC<HeaderProps> = ({ language, onLanguageChange }) => {
               <button
                 key={item.name}
                 onClick={() => scrollToSection(item.href)}
-                className="block w-full text-left px-4 py-3 text-gray-700 hover:text-amber-600 hover:bg-gray-50 rounded-lg transition-colors text-base touch-manipulation"
+                className="block w-full text-left px-4 py-3 text-gray-700 hover:text-amber-600 hover:bg-gray-50 rounded-lg transition-colors text-base touch-manipulation min-h-[44px] flex items-center"
               >
                 {item.name}
               </button>

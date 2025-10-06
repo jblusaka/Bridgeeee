@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Search, TestTube, ChartBar as BarChart3, Leaf, Clock, Award, Globe, Users } from 'lucide-react';
+import { prefersReducedMotion } from '../utils/performanceOptimizations';
 
 interface ServicesProps {
   language: 'en' | 'fr';
@@ -41,6 +42,8 @@ const Services: React.FC<ServicesProps> = ({ language }) => {
         title: 'Why Choose Bridgelink?',
         items: [
           { icon: Clock, title: 'Fast Turnaround', description: 'Quick and efficient project delivery' },
+  const shouldReduceMotion = prefersReducedMotion();
+
           { icon: Award, title: '10+ Years Experience', description: 'Proven track record in mining industry' },
           { icon: Globe, title: 'Regional Expertise', description: 'Deep knowledge of Zambia & DRC markets' },
           { icon: Users, title: 'Expert Team', description: 'Highly qualified mining professionals' }
@@ -110,12 +113,12 @@ const Services: React.FC<ServicesProps> = ({ language }) => {
   };
 
   return (
-    <section id="services" className="py-20 bg-white">
+    <section id="services" className="py-12 sm:py-16 lg:py-20 bg-gray-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true, amount: 0.3 }}
+          transition={{ duration: shouldReduceMotion ? 0.1 : 0.8 }}
           variants={containerVariants}
           className="space-y-16"
         >
@@ -182,19 +185,19 @@ const Services: React.FC<ServicesProps> = ({ language }) => {
             </h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 relative z-10">
               {content[language].features.items.map((feature) => (
-                <motion.div
+              transition={{ duration: shouldReduceMotion ? 0.1 : 0.6, delay: shouldReduceMotion ? 0 : index * 0.1 }}
                   key={feature.title}
-                  variants={itemVariants}
+              className="bg-white p-6 sm:p-8 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 group"
                   whileHover={{ scale: 1.05 }}
                   className="text-center space-y-3 sm:space-y-4 group"
                 >
                   <div className="w-12 h-12 sm:w-16 sm:h-16 bg-white rounded-2xl flex items-center justify-center mx-auto shadow-lg group-hover:shadow-xl transition-shadow">
-                    <feature.icon className="w-8 h-8 text-amber-600" />
+              <h3 className="text-lg sm:text-xl font-semibold text-gray-900 mb-3 sm:mb-4 group-hover:text-amber-600 transition-colors duration-300">
                   </div>
                   <h4 className="text-base sm:text-lg font-bold text-gray-900">{feature.title}</h4>
-                  <p className="text-gray-600 text-xs sm:text-sm">{feature.description}</p>
-                </motion.div>
-              ))}
+              <p className="text-sm sm:text-base text-gray-600 leading-relaxed">
+          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-3 sm:mb-4">Our Services</h2>
+          <p className="text-base sm:text-lg lg:text-xl text-gray-600 max-w-3xl mx-auto px-4">
             </div>
           </motion.div>
         </motion.div>
@@ -203,4 +206,4 @@ const Services: React.FC<ServicesProps> = ({ language }) => {
   );
 };
 
-export default Services;
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">

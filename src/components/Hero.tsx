@@ -1,186 +1,129 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { ArrowRight, ChevronDown } from 'lucide-react';
+import { ChevronDown, ArrowRight } from 'lucide-react';
+import { OptimizedImage } from './OptimizedImage';
+import { prefersReducedMotion } from '../utils/performanceOptimizations';
 
-interface HeroProps {
-  language: 'en' | 'fr';
-}
+export const Hero: React.FC = () => {
+  const shouldReduceMotion = prefersReducedMotion();
 
-const Hero: React.FC<HeroProps> = ({ language }) => {
-  const content = {
-    en: {
-      title: 'Bridgelink Mineral Consultants Ltd',
-      subtitle: 'Exploring the Future',
-      description: 'Leading mining consultancy with 10+ years of excellence in Zambia and DRC, providing uncompromised professional quality results with the best turnaround time.',
-      cta1: 'Learn More',
-      cta2: 'Get Started',
-      scroll: 'Scroll to explore'
-    },
-    fr: {
-      title: 'Bridgelink Mineral Consultants Ltd',
-      subtitle: 'Explorer l\'Avenir',
-      description: 'Conseil minier de premier plan avec plus de 10 ans d\'excellence en Zambie et en RDC, fournissant des résultats de qualité professionnelle sans compromis avec le meilleur délai d\'exécution.',
-      cta1: 'En Savoir Plus',
-      cta2: 'Commencer',
-      scroll: 'Faites défiler pour explorer'
-    }
-  };
-
-  const scrollToSection = (href: string) => {
-    const element = document.querySelector(href);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
+  const scrollToAbout = () => {
+    const aboutSection = document.getElementById('about');
+    aboutSection?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   };
 
   return (
-    <section id="home" className="relative min-h-screen flex items-center justify-center overflow-hidden px-4 sm:px-6 lg:px-8">
-      {/* Background */}
-      <div className="absolute inset-0 z-0">
-        <div className="absolute inset-0 bg-gradient-to-br from-amber-900/90 via-orange-800/80 to-yellow-700/70 z-10" />
-        <picture>
-          <source srcSet="https://images.pexels.com/photos/162553/keys-workshop-mechanic-tools-162553.jpeg?auto=compress&cs=tinysrgb&w=1920&fm=avif" type="image/avif" />
-          <source srcSet="https://images.pexels.com/photos/162553/keys-workshop-mechanic-tools-162553.jpeg?auto=compress&cs=tinysrgb&w=1920&fm=webp" type="image/webp" />
-          <img
-          src="https://images.pexels.com/photos/162553/keys-workshop-mechanic-tools-162553.jpeg?auto=compress&cs=tinysrgb&w=1920"
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gray-900">
+      {/* Background Image */}
+      <div className="absolute inset-0 z-0 will-change-transform">
+        <OptimizedImage
+          src="https://images.pexels.com/photos/1103970/pexels-photo-1103970.jpeg"
           alt="Mining landscape"
-          className="w-full h-full object-cover"
+          className="w-full h-full"
+          priority={true}
           loading="eager"
-          decoding="async"
-          />
-        </picture>
+          sizes="100vw"
+        />
+        <div className="absolute inset-0 bg-black/50" />
       </div>
 
-      {/* Content */}
-      <div className="relative z-20 max-w-7xl mx-auto text-center w-full">
-        <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          className="space-y-6 sm:space-y-8"
-        >
-          <motion.h1
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-white leading-tight px-2"
-          >
-            {content[language].title}
-          </motion.h1>
-
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.4 }}
-            className="space-y-4"
-          >
-            <p className="text-xl sm:text-2xl md:text-3xl font-semibold text-amber-200 px-2">
-              {content[language].subtitle}
-            </p>
-            <p className="text-base sm:text-lg md:text-xl text-gray-100 max-w-3xl mx-auto leading-relaxed px-4">
-              {content[language].description}
-            </p>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.6 }}
-            className="flex flex-col sm:flex-row gap-4 justify-center items-center px-4"
-          >
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              onClick={() => scrollToSection('#about')}
-              className="flex items-center justify-center space-x-2 bg-amber-600 hover:bg-amber-700 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-lg font-semibold text-base sm:text-lg transition-colors duration-200 w-full sm:w-auto min-h-[48px] touch-manipulation"
-            >
-              <span>{content[language].cta1}</span>
-              <ArrowRight className="w-5 h-5" />
-            </motion.button>
-
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              onClick={() => scrollToSection('#contact')}
-              className="flex items-center justify-center space-x-2 border-2 border-white text-white hover:bg-white hover:text-amber-900 px-6 sm:px-8 py-3 sm:py-4 rounded-lg font-semibold text-base sm:text-lg transition-colors duration-200 w-full sm:w-auto min-h-[48px] touch-manipulation"
-            >
-              <span>{content[language].cta2}</span>
-            </motion.button>
-          </motion.div>
-        </motion.div>
-
-        {/* Scroll indicator */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 1, delay: 1 }}
-          className="absolute bottom-4 sm:bottom-8 left-1/2 transform -translate-x-1/2"
-        >
-          <motion.div
-            animate={{ y: [0, 10, 0] }}
-            transition={{ duration: 2, repeat: Infinity }}
-            className="flex flex-col items-center text-white/80 cursor-pointer touch-manipulation"
-            onClick={() => scrollToSection('#about')}
-          >
-            <span className="text-xs sm:text-sm mb-2 hidden sm:block">{content[language].scroll}</span>
-            <ChevronDown className="w-6 h-6" />
-          </motion.div>
-        </motion.div>
-      </div>
-
-      {/* Floating elements */}
-      <div className="absolute inset-0 z-10">
-        {/* Animated particles */}
-        {[...Array(10)].map((_, i) => (
+      {/* Animated Background Elements */}
+      {!shouldReduceMotion && (
+        <div className="absolute inset-0 z-10 will-change-transform">
+        {[...Array(20)].map((_, i) => (
           <motion.div
             key={i}
-            animate={{
-              x: [0, Math.random() * 100 - 50],
-              y: [0, Math.random() * 100 - 50],
-              opacity: [0.3, 0.8, 0.3],
-              scale: [1, 1.2, 1]
-            }}
-            transition={{
-              duration: 3 + Math.random() * 4,
-              repeat: Infinity,
-              delay: Math.random() * 2
-            }}
-            className="absolute w-1 h-1 sm:w-2 sm:h-2 bg-amber-400/40 rounded-full hidden sm:block"
+            className="absolute w-2 h-2 bg-amber-400/30 rounded-full"
             style={{
               left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`
+              top: `${Math.random() * 100}%`,
+            }}
+            animate={{
+              y: [0, -100, 0],
+              opacity: [0.2, 0.6, 0.2],
+            }}
+            transition={{
+              duration: 4 + Math.random() * 2,
+              repeat: Infinity,
+              ease: "easeInOut",
+              delay: Math.random() * 2,
             }}
           />
         ))}
-        
-        <motion.div
-          animate={{ 
-            x: [0, 30, 0], 
-            y: [0, -20, 0],
-            rotate: [0, 5, 0]
-          }}
-          transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute top-20 left-4 sm:left-10 w-4 h-4 sm:w-6 sm:h-6 bg-amber-400/40 rounded-full shadow-lg hidden sm:block"
-        />
-        <motion.div
-          animate={{ 
-            x: [0, -25, 0], 
-            y: [0, 15, 0],
-            rotate: [0, -3, 0]
-          }}
-          transition={{ duration: 8, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-          className="absolute top-40 right-4 sm:right-20 w-6 h-6 sm:w-8 sm:h-8 bg-orange-400/30 rounded-full shadow-lg hidden sm:block"
-        />
-        <motion.div
-          animate={{ 
-            x: [0, 20, 0], 
-            y: [0, -30, 0],
-            rotate: [0, 8, 0]
-          }}
-          transition={{ duration: 7, repeat: Infinity, ease: "easeInOut", delay: 2 }}
-          className="absolute bottom-40 left-4 sm:left-20 w-8 h-8 sm:w-10 sm:h-10 bg-yellow-400/35 rounded-full shadow-lg hidden sm:block"
-        />
       </div>
+      )}
+
+      {/* Content */}
+      <div className="relative z-20 text-center text-white px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto">
+        <motion.h1
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: shouldReduceMotion ? 0.1 : 0.8 }}
+          className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold mb-4 sm:mb-6 leading-tight"
+        >
+          Expert Geological
+          <span className="block text-amber-400">Consulting</span>
+        </motion.h1>
+        
+        <motion.p
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: shouldReduceMotion ? 0.1 : 0.8, delay: shouldReduceMotion ? 0 : 0.2 }}
+          className="text-lg sm:text-xl md:text-2xl mb-6 sm:mb-8 text-gray-200 max-w-2xl mx-auto px-4"
+        >
+          Bridging the gap between geological expertise and mineral exploration success
+        </motion.p>
+
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: shouldReduceMotion ? 0.1 : 0.8, delay: shouldReduceMotion ? 0 : 0.4 }}
+          className="flex flex-col sm:flex-row gap-4 justify-center items-center px-4"
+        >
+          <button
+            onClick={scrollToAbout}
+            className="bg-amber-600 hover:bg-amber-700 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-lg font-semibold text-base sm:text-lg transition-all duration-300 hover:scale-105 hover:shadow-xl flex items-center gap-2 w-full sm:w-auto justify-center min-h-[44px] touch-manipulation"
+          >
+            Explore Our Services
+            <ArrowRight className="h-5 w-5" />
+          </button>
+          
+          <button
+            onClick={() => {
+              const contactSection = document.getElementById('contact');
+              contactSection?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }}
+            className="border-2 border-white text-white hover:bg-white hover:text-gray-900 px-6 sm:px-8 py-3 sm:py-4 rounded-lg font-semibold text-base sm:text-lg transition-all duration-300 hover:scale-105 w-full sm:w-auto justify-center min-h-[44px] touch-manipulation flex items-center"
+          >
+            Get In Touch
+          </button>
+        </motion.div>
+      </div>
+
+      {/* Scroll Indicator */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: shouldReduceMotion ? 0.1 : 1, delay: shouldReduceMotion ? 0 : 1 }}
+        className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-20"
+      >
+        <button
+          onClick={scrollToAbout}
+          className="text-white hover:text-amber-400 transition-colors duration-300 p-2 touch-manipulation"
+          aria-label="Scroll to about section"
+        >
+          <motion.div
+            animate={shouldReduceMotion ? {} : { y: [0, 10, 0] }}
+            transition={{
+              duration: 2,
+              repeat: Infinity,
+              ease: "easeInOut",
+            }}
+          >
+            <ChevronDown className="h-8 w-8" />
+          </motion.div>
+        </button>
+      </motion.div>
     </section>
   );
 };

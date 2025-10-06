@@ -1,228 +1,94 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Target, Eye, Shield, Users } from 'lucide-react';
-import OptimizedImage from './OptimizedImage';
+import { Award, Users, Globe, TrendingUp } from 'lucide-react';
+import { OptimizedImage } from './OptimizedImage';
+import { prefersReducedMotion } from '../utils/performanceOptimizations';
 
-interface AboutProps {
-  language: 'en' | 'fr';
-}
+export const About: React.FC = () => {
+  const shouldReduceMotion = prefersReducedMotion();
 
-const About: React.FC<AboutProps> = ({ language }) => {
-  const content = {
-    en: {
-      title: 'About Bridgelink',
-      subtitle: 'Excellence in Mining Consultancy Since 2010',
-      history: 'Bridgelink Minerals Consultants Ltd is a proudly African BEE company with over 10 years of experience providing high-quality mining services. From humble beginnings, our growth has been driven by dedication, innovation, and customer satisfaction. We offer tailored, value-added solutions with skilled professionals, advanced equipment, and 24/7 operations to ensure efficiency, timely results, and adherence to international quality standards. Committed to sustainable development, we invest in local communities through health, education, sports, and income-generating projects, including sustainable livelihoods programs that provide livestock and reduce dependence on mining activities. By combining expertise, professionalism, and social responsibility, Bridgelink Minerals Consultants continues to be a trusted partner in the mining industry.',
-      mission: {
-        title: 'Our Mission',
-        text: 'To remain committed to delivering uncompromised, professional, and high-quality results with the best possible turnaround time, while consistently meeting and exceeding client expectations.'
-      },
-      vision: {
-        title: 'Our Vision',
-        text: 'To become an internationally recognized leading mining and consultancy firm, renowned for delivering sustainable solutions, fostering innovation, and upholding the highest standards of integrity and professionalism in the global mining industry.'
-      },
-      values: {
-        title: 'Our Values',
-        items: [
-          { icon: Shield, title: 'Safety', description: 'We prioritize the safety of our personnel and operations above all else.' },
-          { icon: Target, title: 'Integrity', description: 'We conduct business with the highest ethical standards and transparency.' },
-          { icon: Eye, title: 'Environmental Responsibility', description: 'We are committed to sustainable mining practices and environmental stewardship.' },
-          { icon: Users, title: 'Governance', description: 'We maintain strong corporate governance and stakeholder accountability.' }
-        ]
-      }
-    },
-    fr: {
-      title: 'À Propos de Bridgelink',
-      subtitle: 'Excellence en Conseil Minier Depuis 2010',
-      history: 'Avec plus de 10 ans d\'expérience dans les services miniers, Bridgelink Mineral Consultants Ltd s\'est établi comme un partenaire de confiance dans l\'industrie minière en Zambie et en République Démocratique du Congo.',
-      mission: {
-        title: 'Notre Mission',
-        text: 'S\'engager à fournir des résultats professionnels et de qualité sans compromis dans les meilleurs délais.'
-      },
-      vision: {
-        title: 'Notre Vision',
-        text: 'Devenir reconnu internationalement comme une société de conseil minier de premier plan.'
-      },
-      values: {
-        title: 'Nos Valeurs',
-        items: [
-          { icon: Shield, title: 'Sécurité', description: 'Nous priorisons la sécurité de notre personnel et de nos opérations avant tout.' },
-          { icon: Target, title: 'Intégrité', description: 'Nous menons nos affaires avec les plus hauts standards éthiques et transparence.' },
-          { icon: Eye, title: 'Responsabilité Environnementale', description: 'Nous nous engageons dans des pratiques minières durables et la gestion environnementale.' },
-          { icon: Users, title: 'Gouvernance', description: 'Nous maintenons une gouvernance d\'entreprise forte et une responsabilité envers les parties prenantes.' }
-        ]
-      }
-    }
-  };
-
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.2
-      }
-    }
-  };
-
-  const itemVariants = {
-    hidden: { y: 30, opacity: 0 },
-    visible: {
-      y: 0,
-      opacity: 1,
-      transition: {
-        duration: 0.6
-      }
-    }
-  };
+  const stats = [
+    { icon: Award, label: 'Years Experience', value: '25+' },
+    { icon: Users, label: 'Expert Team Members', value: '50+' },
+    { icon: Globe, label: 'Countries Served', value: '15+' },
+    { icon: TrendingUp, label: 'Successful Projects', value: '200+' },
+  ];
 
   return (
-    <section id="about" className="py-20 bg-gray-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <motion.div
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.3 }}
-          variants={containerVariants}
-          className="space-y-16"
-        >
-          {/* Header */}
-          <motion.div variants={itemVariants} className="text-center space-y-4 px-4">
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900">
-              {content[language].title}
+    <section id="about" className="py-12 sm:py-16 lg:py-20 bg-white">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
+          {/* Content */}
+          <motion.div
+            initial={{ opacity: 0, x: -50 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            transition={{ duration: shouldReduceMotion ? 0.1 : 0.8 }}
+            viewport={{ once: true }}
+          >
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-4 sm:mb-6">
+              About BridgeLink
             </h2>
-            <p className="text-lg sm:text-xl text-amber-600 font-semibold">
-              {content[language].subtitle}
+            <p className="text-base sm:text-lg text-gray-600 mb-4 sm:mb-6 leading-relaxed">
+              With over two decades of experience in geological consulting, BridgeLink 
+              Mineral Consultants has established itself as a trusted partner in the 
+              mining and exploration industry.
             </p>
-            <p className="text-base sm:text-lg text-gray-600 max-w-4xl mx-auto leading-relaxed">
-              {content[language].history}
+            <p className="text-base sm:text-lg text-gray-600 mb-6 sm:mb-8 leading-relaxed">
+              Our team of expert geologists, engineers, and consultants work together 
+              to provide comprehensive solutions that bridge the gap between geological 
+              science and practical mining applications.
             </p>
-          </motion.div>
 
-          {/* Mission & Vision */}
-          <div className="grid md:grid-cols-2 gap-6 sm:gap-8">
-            <motion.div variants={itemVariants} className="bg-white rounded-2xl p-6 sm:p-8 shadow-lg border border-gray-100">
-              <div className="flex items-center space-x-3 mb-6">
-                <div className="w-10 h-10 sm:w-12 sm:h-12 bg-amber-100 rounded-xl flex items-center justify-center flex-shrink-0">
-                  <Target className="w-6 h-6 text-amber-600" />
-                </div>
-                <h3 className="text-xl sm:text-2xl font-bold text-gray-900">{content[language].mission.title}</h3>
-              </div>
-              <p className="text-sm sm:text-base text-gray-600 leading-relaxed">{content[language].mission.text}</p>
-            </motion.div>
-
-            <motion.div variants={itemVariants} className="bg-white rounded-2xl p-6 sm:p-8 shadow-lg border border-gray-100">
-              <div className="flex items-center space-x-3 mb-6">
-                <div className="w-10 h-10 sm:w-12 sm:h-12 bg-blue-100 rounded-xl flex items-center justify-center flex-shrink-0">
-                  <Eye className="w-6 h-6 text-blue-600" />
-                </div>
-                <h3 className="text-xl sm:text-2xl font-bold text-gray-900">{content[language].vision.title}</h3>
-              </div>
-              <p className="text-sm sm:text-base text-gray-600 leading-relaxed">{content[language].vision.text}</p>
-            </motion.div>
-          </div>
-
-          {/* Values */}
-          <motion.div variants={itemVariants} className="space-y-8">
-            <h3 className="text-2xl sm:text-3xl font-bold text-gray-900 text-center px-4">
-              {content[language].values.title}
-            </h3>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
-              {content[language].values.items.map((value) => (
+            {/* Stats Grid */}
+            <div className="grid grid-cols-2 gap-4 sm:gap-6">
+              {stats.map((stat, index) => (
                 <motion.div
-                  key={value.title}
-                  variants={itemVariants}
-                  whileHover={{ y: -5 }}
-                  className="bg-white rounded-xl p-4 sm:p-6 shadow-lg border border-gray-100 text-center group hover:shadow-xl transition-all duration-300"
+                  key={stat.label}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: shouldReduceMotion ? 0.1 : 0.6, delay: shouldReduceMotion ? 0 : index * 0.1 }}
+                  viewport={{ once: true }}
+                  className="text-center p-3 sm:p-4 bg-gray-50 rounded-lg hover:bg-amber-50 transition-colors duration-300"
                 >
-                  <div className="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-r from-amber-500 to-orange-600 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform">
-                    <value.icon className="w-8 h-8 text-white" />
-                  </div>
-                  <h4 className="text-base sm:text-lg font-bold text-gray-900 mb-3">{value.title}</h4>
-                  <p className="text-gray-600 text-xs sm:text-sm leading-relaxed">{value.description}</p>
+                  <stat.icon className="h-8 w-8 text-amber-600 mx-auto mb-2" />
+                  <div className="text-xl sm:text-2xl font-bold text-gray-900">{stat.value}</div>
+                  <div className="text-xs sm:text-sm text-gray-600">{stat.label}</div>
                 </motion.div>
               ))}
             </div>
           </motion.div>
-          
-          {/* Visual Gallery */}
-          <motion.div 
-            variants={itemVariants}
-            className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 mt-12"
+
+          {/* Image */}
+          <motion.div
+            initial={{ opacity: 0, x: 50 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            transition={{ duration: shouldReduceMotion ? 0.1 : 0.8 }}
+            viewport={{ once: true }}
+            className="relative order-first lg:order-last"
           >
-            <motion.div 
-              whileHover={{ scale: 1.05, rotate: 2 }}
-              className="relative overflow-hidden rounded-xl shadow-lg"
-            >
+            <div className="relative rounded-lg overflow-hidden shadow-2xl aspect-[4/3] sm:aspect-[3/2] lg:aspect-[4/3]">
               <OptimizedImage
-                src="/assets/images/op2.webp"
-                alt="Mining operations"
-                className="w-full h-24 sm:h-32 object-cover"
-                width={200}
-                height={128}
-                lazy={true}
+                src="https://images.pexels.com/photos/1624496/pexels-photo-1624496.jpeg"
+                alt="Geological survey team"
+                className="w-full h-full"
+                sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 40vw"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
-              <div className="absolute bottom-1 sm:bottom-2 left-1 sm:left-2 text-white text-xs sm:text-sm font-semibold">
-                {language === 'en' ? 'Operations' : 'Opérations'}
-              </div>
-            </motion.div>
+              <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
+            </div>
             
-            <motion.div 
-              whileHover={{ scale: 1.05, rotate: -2 }}
-              className="relative overflow-hidden rounded-xl shadow-lg"
+            {/* Floating Card */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: shouldReduceMotion ? 0.1 : 0.6, delay: shouldReduceMotion ? 0 : 0.3 }}
+              viewport={{ once: true }}
+              className="absolute -bottom-4 -left-4 sm:-bottom-6 sm:-left-6 bg-white p-4 sm:p-6 rounded-lg shadow-xl border border-gray-100 max-w-[200px] sm:max-w-none"
             >
-              <OptimizedImage
-                src="/assets/images/op1.webp"
-                alt="Mining equipment"
-                className="w-full h-24 sm:h-32 object-cover"
-                width={200}
-                height={128}
-                lazy={true}
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
-              <div className="absolute bottom-1 sm:bottom-2 left-1 sm:left-2 text-white text-xs sm:text-sm font-semibold">
-                {language === 'en' ? 'Equipment' : 'Équipement'}
-              </div>
-            </motion.div>
-            
-            <motion.div 
-              whileHover={{ scale: 1.05, rotate: 1 }}
-              className="relative overflow-hidden rounded-xl shadow-lg"
-            >
-              <OptimizedImage
-                src="/assets/images/tm.webp"
-                alt="Team collaboration"
-                className="w-full h-24 sm:h-32 object-cover"
-                width={200}
-                height={128}
-                lazy={true}
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
-              <div className="absolute bottom-1 sm:bottom-2 left-1 sm:left-2 text-white text-xs sm:text-sm font-semibold">
-                {language === 'en' ? 'Team' : 'Équipe'}
-              </div>
-            </motion.div>
-            
-            <motion.div 
-              whileHover={{ scale: 1.05, rotate: -1 }}
-              className="relative overflow-hidden rounded-xl shadow-lg"
-            >
-              <OptimizedImage
-                src="/assets/images/sf3.webp"
-                alt="Safety standards"
-                className="w-full h-24 sm:h-32 object-cover"
-                width={200}
-                height={128}
-                lazy={true}
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
-              <div className="absolute bottom-1 sm:bottom-2 left-1 sm:left-2 text-white text-xs sm:text-sm font-semibold">
-                {language === 'en' ? 'Safety' : 'Sécurité'}
-              </div>
+              <div className="text-lg sm:text-2xl font-bold text-amber-600">ISO 9001</div>
+              <div className="text-xs sm:text-sm text-gray-600">Certified Quality</div>
             </motion.div>
           </motion.div>
-        </motion.div>
+        </div>
       </div>
     </section>
   );

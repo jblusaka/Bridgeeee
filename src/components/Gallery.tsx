@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, ChevronLeft, ChevronRight, Play, Pause } from 'lucide-react';
+import { OptimizedImage } from './OptimizedImage';
+import { prefersReducedMotion } from '../utils/performanceOptimizations';
 import OptimizedImage from './OptimizedImage';
 
 interface GalleryProps {
@@ -8,6 +10,7 @@ interface GalleryProps {
 }
 
 const Gallery: React.FC<GalleryProps> = ({ language }) => {
+  const shouldReduceMotion = prefersReducedMotion();
   const [selectedImage, setSelectedImage] = useState<number | null>(null);
   const [isAutoPlay, setIsAutoPlay] = useState(false);
 
@@ -72,7 +75,7 @@ const Gallery: React.FC<GalleryProps> = ({ language }) => {
       src: '/assets/images/mn2.webp',
       title: language === 'en' ? 'Copper' : 'Extraction d\'Or',
       category: 'minerals',
-      description: language === 'en' ? 'Pure gold extracted from our mines' : 'Or pur extrait de nos mines'
+    <section id="gallery" className="py-12 sm:py-16 lg:py-20 bg-white">
     },
     {
       id: 6,
@@ -196,9 +199,9 @@ const Gallery: React.FC<GalleryProps> = ({ language }) => {
         <motion.div
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true, amount: 0.3 }}
+          transition={{ duration: shouldReduceMotion ? 0.1 : 0.8 }}
           variants={containerVariants}
-          className="space-y-16"
+          className="text-center mb-8 sm:mb-12"
         >
           {/* Header */}
           <motion.div variants={itemVariants} className="text-center space-y-4 px-4">
@@ -264,8 +267,8 @@ const Gallery: React.FC<GalleryProps> = ({ language }) => {
                     <h3 className="text-lg sm:text-xl font-bold text-white mb-2">{image.title}</h3>
                     <p className="text-gray-300 text-xs sm:text-sm">{image.description}</p>
                   </div>
-                </motion.div>
-              ))}
+          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-3 sm:mb-4">Project Gallery</h2>
+          <p className="text-base sm:text-lg lg:text-xl text-gray-600 max-w-3xl mx-auto px-4">
             </AnimatePresence>
           </motion.div>
         </motion.div>
@@ -279,19 +282,20 @@ const Gallery: React.FC<GalleryProps> = ({ language }) => {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             className="fixed inset-0 z-50 bg-black/95 flex items-center justify-center p-2 sm:p-4"
-            onClick={() => setSelectedImage(null)}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
           >
             <motion.div
               initial={{ scale: 0.8, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
+              transition={{ duration: shouldReduceMotion ? 0.1 : 0.6, delay: shouldReduceMotion ? 0 : index * 0.1 }}
               exit={{ scale: 0.8, opacity: 0 }}
-              className="relative max-w-full max-h-full w-full"
+              className="relative group cursor-pointer overflow-hidden rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 aspect-[4/3]"
               onClick={(e) => e.stopPropagation()}
             >
-              <img
+              <OptimizedImage
                 src={filteredImages[selectedImage]?.src}
                 alt={filteredImages[selectedImage]?.title}
-                className="max-w-full max-h-[70vh] sm:max-h-[80vh] object-contain rounded-lg mx-auto"
+                className="w-full h-full group-hover:scale-110 transition-transform duration-500"
+                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
               />
               
               {/* Controls */}
@@ -323,27 +327,28 @@ const Gallery: React.FC<GalleryProps> = ({ language }) => {
                 onClick={prevImage}
                 className="absolute left-2 sm:left-4 top-1/2 transform -translate-y-1/2 w-10 h-10 sm:w-12 sm:h-12 bg-black/50 rounded-full flex items-center justify-center text-white hover:bg-black/70 transition-colors touch-manipulation"
                 aria-label="Previous image"
-              >
+              className="fixed inset-0 bg-black/90 z-50 flex items-center justify-center p-4 backdrop-blur-sm"
                 <ChevronLeft className="w-5 h-5 sm:w-6 sm:h-6" />
               </motion.button>
               
               <motion.button
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.9 }}
-                onClick={nextImage}
+                className="relative max-w-4xl max-h-[90vh] w-full mx-auto"
                 className="absolute right-2 sm:right-4 top-1/2 transform -translate-y-1/2 w-10 h-10 sm:w-12 sm:h-12 bg-black/50 rounded-full flex items-center justify-center text-white hover:bg-black/70 transition-colors touch-manipulation"
                 aria-label="Next image"
-              >
+                <OptimizedImage
                 <ChevronRight className="w-5 h-5 sm:w-6 sm:h-6" />
               </motion.button>
-
+                  className="w-full h-full rounded-lg"
+                  sizes="90vw"
               {/* Image Info */}
               <div className="absolute bottom-2 sm:bottom-4 left-2 sm:left-4 right-2 sm:right-4 bg-black/50 rounded-lg p-3 sm:p-4">
                 <h3 className="text-lg sm:text-xl font-bold text-white mb-2">
-                  {filteredImages[selectedImage]?.title}
+                  className="absolute top-2 right-2 sm:top-4 sm:right-4 bg-black/50 text-white p-2 rounded-full hover:bg-black/70 transition-colors duration-300 touch-manipulation"
                 </h3>
-                <p className="text-gray-300 text-sm sm:text-base">
-                  {filteredImages[selectedImage]?.description}
+                  <ZoomIn className="h-6 w-6 sm:h-8 sm:w-8 mx-auto mb-1 sm:mb-2" />
+                  <X className="h-5 w-5 sm:h-6 sm:w-6" />
                 </p>
               </div>
             </motion.div>

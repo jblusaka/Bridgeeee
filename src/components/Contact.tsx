@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useForm } from 'react-hook-form';
+import { prefersReducedMotion } from '../utils/performanceOptimizations';
 import { Mail, Phone, MapPin, Send, User, MessageSquare, CircleCheck as CheckCircle } from 'lucide-react';
 
 interface ContactProps {
@@ -9,6 +10,7 @@ interface ContactProps {
 
 interface FormData {
   name: string;
+  const shouldReduceMotion = prefersReducedMotion();
   email: string;
   subject: string;
   message: string;
@@ -138,14 +140,14 @@ const Contact: React.FC<ContactProps> = ({ language }) => {
   };
 
   return (
-    <section id="contact" className="py-20 bg-white">
+    <section id="contact" className="py-12 sm:py-16 lg:py-20 bg-gray-900 text-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true, amount: 0.3 }}
+          transition={{ duration: shouldReduceMotion ? 0.1 : 0.8 }}
           variants={containerVariants}
-          className="space-y-16"
+          className="text-center mb-8 sm:mb-12"
         >
           {/* Header */}
           <motion.div variants={itemVariants} className="text-center space-y-4 px-4">
@@ -198,38 +200,38 @@ const Contact: React.FC<ContactProps> = ({ language }) => {
                       />
                     </div>
                     {errors.name && (
-                      <p className="mt-1 text-sm text-red-600">{errors.name.message}</p>
+            transition={{ duration: shouldReduceMotion ? 0.1 : 0.8 }}
                     )}
                   </div>
-
-                  <div>
+            <h3 className="text-xl sm:text-2xl font-semibold mb-6 sm:mb-8">Contact Information</h3>
+            <div className="space-y-4 sm:space-y-6">
                     <label className="block text-sm font-medium text-gray-700 mb-2" htmlFor="email">
                       {content[language].form.email}
-                    </label>
+                  <Mail className="h-5 w-5 sm:h-6 sm:w-6" />
                     <div className="relative">
                       <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
-                      <input
-                        id="email"
+                  <h4 className="font-semibold text-sm sm:text-base">Email</h4>
+                  <p className="text-gray-300 text-sm sm:text-base">info@bridgelink.com</p>
                         {...register('email', {
                           required: content[language].form.required,
                           pattern: {
                             value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
                             message: content[language].form.emailInvalid
-                          }
+                  <Phone className="h-5 w-5 sm:h-6 sm:w-6" />
                         })}
                         type="email"
-                        placeholder={content[language].form.emailPlaceholder}
-                        className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent text-base"
+                  <h4 className="font-semibold text-sm sm:text-base">Phone</h4>
+                  <p className="text-gray-300 text-sm sm:text-base">+1 (555) 123-4567</p>
                       />
                     </div>
                     {errors.email && (
                       <p className="mt-1 text-sm text-red-600">{errors.email.message}</p>
                     )}
-                  </div>
+                  <MapPin className="h-5 w-5 sm:h-6 sm:w-6" />
                 </div>
 
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2" htmlFor="subject">
+                  <h4 className="font-semibold text-sm sm:text-base">Location</h4>
+                  <p className="text-gray-300 text-sm sm:text-base">Denver, Colorado, USA</p>
                     {content[language].form.subject}
                   </label>
                   <input
@@ -239,13 +241,13 @@ const Contact: React.FC<ContactProps> = ({ language }) => {
                     placeholder={content[language].form.subjectPlaceholder}
                     className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent text-base"
                   />
-                  {errors.subject && (
+            transition={{ duration: shouldReduceMotion ? 0.1 : 0.8 }}
                     <p className="mt-1 text-sm text-red-600">{errors.subject.message}</p>
                   )}
-                </div>
+            <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6">
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2" htmlFor="message">
+                  <label htmlFor="name" className="block text-sm font-medium mb-1 sm:mb-2">
                     {content[language].form.message}
                   </label>
                   <div className="relative">
@@ -255,13 +257,13 @@ const Contact: React.FC<ContactProps> = ({ language }) => {
                       {...register('message', { required: content[language].form.required })}
                       rows={5}
                       placeholder={content[language].form.messagePlaceholder}
-                      className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent resize-none text-base"
+                    className="w-full px-3 sm:px-4 py-2 sm:py-3 bg-gray-800 border border-gray-700 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent text-white placeholder-gray-400 text-sm sm:text-base min-h-[44px]"
                     />
                   </div>
                   {errors.message && (
                     <p className="mt-1 text-sm text-red-600">{errors.message.message}</p>
                   )}
-                </div>
+                  <label htmlFor="email" className="block text-sm font-medium mb-1 sm:mb-2">
 
                 <motion.button
                   whileHover={{ scale: 1.02 }}
@@ -271,14 +273,14 @@ const Contact: React.FC<ContactProps> = ({ language }) => {
                   className="w-full flex items-center justify-center space-x-2 bg-amber-600 text-white py-3 px-6 rounded-lg font-semibold hover:bg-amber-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors min-h-[48px] touch-manipulation"
                 >
                   <Send className="w-5 h-5" />
-                  <span>
+                    className="w-full px-3 sm:px-4 py-2 sm:py-3 bg-gray-800 border border-gray-700 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent text-white placeholder-gray-400 text-sm sm:text-base min-h-[44px]"
                     {isSubmitting 
                       ? content[language].form.sending 
                       : content[language].form.send
                     }
                   </span>
                 </motion.button>
-              </form>
+                <label htmlFor="company" className="block text-sm font-medium mb-1 sm:mb-2">
             </motion.div>
 
             {/* Contact Information */}
@@ -287,13 +289,13 @@ const Contact: React.FC<ContactProps> = ({ language }) => {
               <div className="space-y-6">
                 <h3 className="text-xl sm:text-2xl font-bold text-gray-900">
                   {language === 'en' ? 'Our Offices' : 'Nos Bureaux'}
-                </h3>
+                  className="w-full px-3 sm:px-4 py-2 sm:py-3 bg-gray-800 border border-gray-700 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent text-white placeholder-gray-400 text-sm sm:text-base min-h-[44px]"
                 {content[language].offices.map((office) => (
                   <div key={office.title} className="bg-gray-50 rounded-xl p-4 sm:p-6 border border-gray-200">
                     <h4 className="text-base sm:text-lg font-bold text-gray-900 mb-3">{office.title}</h4>
                     <div className="space-y-3">
                       <div className="flex items-start space-x-3">
-                        <MapPin className="w-5 h-5 text-amber-600 mt-1 flex-shrink-0" />
+                <label htmlFor="message" className="block text-sm font-medium mb-1 sm:mb-2">
                         <p className="text-gray-700 whitespace-pre-line text-sm sm:text-base">{office.address}</p>
                       </div>
                       <div className="flex items-center space-x-3">
@@ -303,7 +305,7 @@ const Contact: React.FC<ContactProps> = ({ language }) => {
                         </a>
                       </div>
                       <div className="flex items-center space-x-3">
-                        <Mail className="w-5 h-5 text-amber-600 flex-shrink-0" />
+                  className="w-full px-3 sm:px-4 py-2 sm:py-3 bg-gray-800 border border-gray-700 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent text-white placeholder-gray-400 resize-none text-sm sm:text-base"
                         <a href={`mailto:${office.email}`} className="text-gray-700 hover:text-amber-600 transition-colors text-sm sm:text-base">
                           {office.email}
                         </a>
@@ -312,7 +314,7 @@ const Contact: React.FC<ContactProps> = ({ language }) => {
                   </div>
                 ))}
               </div>
-
+                className={`w-full py-3 sm:py-4 px-4 sm:px-6 rounded-lg font-semibold text-base sm:text-lg transition-all duration-300 flex items-center justify-center space-x-2 min-h-[44px] touch-manipulation ${
               {/* Direct Contacts */}
               <div className="space-y-6">
                 <h3 className="text-xl sm:text-2xl font-bold text-gray-900">
@@ -328,8 +330,8 @@ const Contact: React.FC<ContactProps> = ({ language }) => {
                       </a>
                     </div>
                   ))}
-                </div>
-              </div>
+          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-3 sm:mb-4">Get In Touch</h2>
+          <p className="text-base sm:text-lg lg:text-xl text-gray-300 max-w-3xl mx-auto px-4">
             </motion.div>
           </div>
         </motion.div>
@@ -338,4 +340,4 @@ const Contact: React.FC<ContactProps> = ({ language }) => {
   );
 };
 
-export default Contact;
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">

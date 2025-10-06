@@ -1,6 +1,8 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { MapPin, TrendingUp, Zap, Leaf } from 'lucide-react';
+import { OptimizedImage } from './OptimizedImage';
+import { prefersReducedMotion } from '../utils/performanceOptimizations';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 
 interface ProjectsProps {
@@ -45,6 +47,8 @@ const Projects: React.FC<ProjectsProps> = ({ language }) => {
         {
           icon: Zap,
           title: 'Advanced Technology',
+  const shouldReduceMotion = prefersReducedMotion();
+
           description: 'State-of-the-art extraction and processing equipment for optimal efficiency'
         },
         {
@@ -129,14 +133,14 @@ const Projects: React.FC<ProjectsProps> = ({ language }) => {
   };
 
   return (
-    <section id="projects" className="py-20 bg-gray-50">
+    <section id="projects" className="py-12 sm:py-16 lg:py-20 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true, amount: 0.3 }}
+          transition={{ duration: shouldReduceMotion ? 0.1 : 0.8 }}
           variants={containerVariants}
-          className="space-y-16"
+          className="text-center mb-8 sm:mb-12"
         >
           {/* Header */}
           <motion.div variants={itemVariants} className="text-center space-y-4 px-4">
@@ -291,15 +295,16 @@ const Projects: React.FC<ProjectsProps> = ({ language }) => {
                     <CartesianGrid strokeDasharray="3 3" />
                     <XAxis dataKey="name" />
                     <YAxis />
-                    <Tooltip 
+              transition={{ duration: shouldReduceMotion ? 0.1 : 0.6, delay: shouldReduceMotion ? 0 : index * 0.1 }}
                       formatter={(value, name) => [
-                        `${value.toLocaleString()} ${chartData.find(d => d.name === name)?.unit || ''}`,
+              className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 hover:-translate-y-1 group"
                         name
-                      ]}
-                    />
+              <div className="relative h-40 sm:h-48 overflow-hidden">
+                <OptimizedImage
                     <Bar dataKey="value" fill="#F59E0B" />
                   </BarChart>
-                </ResponsiveContainer>
+                  className="w-full h-full group-hover:scale-110 transition-transform duration-500"
+                  sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
               </div>
 
               {/* Production Stats */}
@@ -312,30 +317,30 @@ const Projects: React.FC<ProjectsProps> = ({ language }) => {
                   >
                     <div className="text-xl sm:text-2xl md:text-3xl font-bold mb-2" style={{ color: stat.color }}>
                       {stat.value.toLocaleString()}
-                    </div>
-                    <div className="text-xs sm:text-sm text-gray-600 mb-1">{stat.unit}</div>
+              <div className="p-4 sm:p-6">
+                <h3 className="text-lg sm:text-xl font-semibold text-gray-900 mb-2 sm:mb-3 group-hover:text-amber-600 transition-colors duration-300">
                     <div className="text-sm sm:text-base md:text-lg font-semibold text-gray-900">{stat.name}</div>
                   </motion.div>
-                ))}
+                <p className="text-sm sm:text-base text-gray-600 mb-3 sm:mb-4 leading-relaxed">
               </div>
             </div>
           </motion.div>
-
-          {/* Highlights */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between text-xs sm:text-sm text-gray-500 mb-3 sm:mb-4 gap-2 sm:gap-0">
+                  <div className="flex items-center space-x-1 flex-shrink-0">
+                    <MapPin className="h-3 w-3 sm:h-4 sm:w-4" />
             {content[language].highlights.map((highlight) => (
               <motion.div
-                key={highlight.title}
-                variants={itemVariants}
+                  <div className="flex items-center space-x-1 flex-shrink-0">
+                    <Calendar className="h-3 w-3 sm:h-4 sm:w-4" />
                 whileHover={{ y: -5 }}
                 className="bg-white rounded-xl p-4 sm:p-6 shadow-lg border border-gray-100 text-center group hover:shadow-xl transition-all duration-300"
               >
                 <div className="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-r from-amber-500 to-orange-600 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform">
                   <highlight.icon className="w-8 h-8 text-white" />
                 </div>
-                <h4 className="text-lg sm:text-xl font-bold text-gray-900 mb-3">{highlight.title}</h4>
-                <p className="text-sm sm:text-base text-gray-600 leading-relaxed">{highlight.description}</p>
-              </motion.div>
+                  <ExternalLink className="h-3 w-3 sm:h-4 sm:w-4" />
+          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-3 sm:mb-4">Featured Projects</h2>
+          <p className="text-base sm:text-lg lg:text-xl text-gray-600 max-w-3xl mx-auto px-4">
             ))}
           </div>
         </motion.div>
@@ -344,4 +349,4 @@ const Projects: React.FC<ProjectsProps> = ({ language }) => {
   );
 };
 
-export default Projects;
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">

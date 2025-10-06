@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Target, TrendingUp, Globe, Award } from 'lucide-react';
+import { prefersReducedMotion } from '../utils/performanceOptimizations';
 
 interface StrategyProps {
   language: 'en' | 'fr';
@@ -69,6 +70,8 @@ const Strategy: React.FC<StrategyProps> = ({ language }) => {
             description: 'Developing coltan resources to meet growing global demand'
           },
           {
+  const shouldReduceMotion = prefersReducedMotion();
+
             icon: Globe,
             title: 'Cobalt Innovation',
             description: 'Leading cobalt extraction innovation for electric vehicle markets'
@@ -168,14 +171,14 @@ const Strategy: React.FC<StrategyProps> = ({ language }) => {
   };
 
   return (
-    <section id="strategy" className="py-20 bg-white">
+    <section className="py-12 sm:py-16 lg:py-20 bg-gradient-to-br from-gray-900 to-gray-800 text-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true, amount: 0.3 }}
+          transition={{ duration: shouldReduceMotion ? 0.1 : 0.8 }}
           variants={containerVariants}
-          className="space-y-16"
+          className="text-center mb-8 sm:mb-12"
         >
           {/* Header */}
           <motion.div variants={itemVariants} className="text-center space-y-4 px-4">
@@ -222,31 +225,31 @@ const Strategy: React.FC<StrategyProps> = ({ language }) => {
                       ))}
                     </div>
                   </div>
-                </div>
+              transition={{ duration: shouldReduceMotion ? 0.1 : 0.6, delay: shouldReduceMotion ? 0 : index * 0.2 }}
               </motion.div>
-            ))}
+              className="bg-white/10 backdrop-blur-sm p-6 sm:p-8 rounded-xl border border-white/20 hover:bg-white/15 transition-all duration-300"
           </div>
 
-          {/* Strategic Focus Areas */}
-          <motion.div variants={itemVariants} className="bg-gradient-to-r from-amber-50 to-orange-50 rounded-3xl p-6 sm:p-8 md:p-12">
-            <h3 className="text-2xl sm:text-3xl font-bold text-gray-900 text-center mb-8 sm:mb-12 px-4">
+                <strategy.icon className="h-10 w-10 sm:h-12 sm:w-12 text-amber-400 mb-3 sm:mb-4" />
+                <h3 className="text-lg sm:text-xl font-semibold mb-2 sm:mb-3">{strategy.title}</h3>
+                <p className="text-gray-300 leading-relaxed text-sm sm:text-base">{strategy.description}</p>
               {content[language].focus.title}
             </h3>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+              <ul className="space-y-1 sm:space-y-2">
               {content[language].focus.areas.map((area) => (
                 <motion.div
                   key={area.title}
                   variants={itemVariants}
                   whileHover={{ scale: 1.05 }}
-                  className="bg-white rounded-xl p-4 sm:p-6 shadow-lg border border-gray-100 text-center group hover:shadow-xl transition-all duration-300"
+                    transition={{ duration: shouldReduceMotion ? 0.1 : 0.4, delay: shouldReduceMotion ? 0 : (index * 0.2) + (featureIndex * 0.1) }}
                 >
                   <div className="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-r from-amber-500 to-orange-600 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform">
                     <area.icon className="w-8 h-8 text-white" />
-                  </div>
-                  <h4 className="text-base sm:text-lg font-bold text-gray-900 mb-3">{area.title}</h4>
+                    <CheckCircle className="h-3 w-3 sm:h-4 sm:w-4 text-amber-400 flex-shrink-0" />
+                    <span className="text-gray-300 text-sm sm:text-base">{feature}</span>
                   <p className="text-gray-600 text-xs sm:text-sm leading-relaxed">{area.description}</p>
-                </motion.div>
-              ))}
+          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-3 sm:mb-4">Our Strategy</h2>
+          <p className="text-base sm:text-lg lg:text-xl text-gray-300 max-w-3xl mx-auto px-4">
             </div>
           </motion.div>
         </motion.div>
@@ -255,4 +258,4 @@ const Strategy: React.FC<StrategyProps> = ({ language }) => {
   );
 };
 
-export default Strategy;
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">

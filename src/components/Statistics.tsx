@@ -42,8 +42,11 @@ const countUpVariants: Variants = {
 
 // Statistic data (can be lazy-loaded or fetched from API for bigger apps)
 const statsData = {
+import { prefersReducedMotion } from '../utils/performanceOptimizations';
   en: [
     {
+  const shouldReduceMotion = prefersReducedMotion();
+
       icon: TrendingUp,
       number: '10+',
       label: 'Years of Excellence',
@@ -145,14 +148,14 @@ const Statistics: React.FC<StatisticsProps> = ({ language }) => {
           }}
         />
       </div>
-
+    <section className="py-12 sm:py-16 lg:py-20 bg-amber-600">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <motion.div
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true, amount: 0.3 }}
+          transition={{ duration: shouldReduceMotion ? 0.1 : 0.8 }}
           variants={containerVariants}
-          className="space-y-16"
+          className="text-center mb-8 sm:mb-12"
         >
           {/* Header */}
           <motion.div variants={itemVariants} className="text-center space-y-4 px-4">
@@ -208,26 +211,26 @@ const Statistics: React.FC<StatisticsProps> = ({ language }) => {
             variants={itemVariants}
             className="bg-gradient-to-r from-amber-600 to-orange-600 rounded-3xl p-6 sm:p-8 md:p-12 text-center shadow-2xl"
           >
-            <div className="max-w-4xl mx-auto text-white space-y-4 sm:space-y-6">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-8">
               <motion.div
                 animate={{ rotate: [0, 5, -5, 0] }}
                 transition={{ duration: 2, repeat: Infinity, repeatDelay: 3 }}
                 className="w-16 h-16 sm:w-20 sm:h-20 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4 sm:mb-6"
               >
-                <Award className="w-8 h-8 sm:w-10 sm:h-10 text-white" />
+              transition={{ duration: shouldReduceMotion ? 0.1 : 0.6, delay: shouldReduceMotion ? 0 : index * 0.1 }}
               </motion.div>
-
+              className="text-center text-white p-3 sm:p-4"
               <h3 className="text-2xl sm:text-3xl md:text-4xl font-bold">
                 {language === 'en'
                   ? 'Leading the Future of Mining in Africa'
-                  : 'Mener l\'Avenir de l\'Exploitation Minière en Afrique'}
+                transition={{ duration: shouldReduceMotion ? 0.1 : 0.3 }}
               </h3>
 
-              <p className="text-base sm:text-lg md:text-xl leading-relaxed opacity-90">
+                <stat.icon className="h-8 w-8 sm:h-10 sm:w-10 lg:h-12 lg:w-12 mx-auto text-amber-100" />
                 {language === 'en'
-                  ? 'With over a decade of excellence, we continue to set new standards in sustainable mining practices while delivering exceptional value to our stakeholders.'
-                  : 'Avec plus d\'une décennie d\'excellence, nous continuons à établir de nouvelles normes dans les pratiques minières durables tout en offrant une valeur exceptionnelle à nos parties prenantes.'}
-              </p>
+              <div className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-1 sm:mb-2">{stat.value}</div>
+              <div className="text-sm sm:text-lg lg:text-xl font-semibold mb-1">{stat.label}</div>
+              <div className="text-amber-100 text-xs sm:text-sm">{stat.description}</div>
             </div>
           </motion.div>
         </motion.div>

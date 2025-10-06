@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Shield, Users, FileText, Award, CircleCheck as CheckCircle, TriangleAlert as AlertTriangle } from 'lucide-react';
+import { prefersReducedMotion } from '../utils/performanceOptimizations';
 
 interface GovernanceProps {
   language: 'en' | 'fr';
@@ -62,6 +63,8 @@ const Governance: React.FC<GovernanceProps> = ({ language }) => {
         title: 'Key Policies & Frameworks',
         items: [
           { icon: CheckCircle, title: 'Anti-Corruption Policy', status: 'Implemented' },
+  const shouldReduceMotion = prefersReducedMotion();
+
           { icon: CheckCircle, title: 'Risk Management Framework', status: 'Active' },
           { icon: CheckCircle, title: 'Environmental Compliance', status: 'Monitored' },
           { icon: AlertTriangle, title: 'Safety Management System', status: 'Priority' }
@@ -152,14 +155,14 @@ const Governance: React.FC<GovernanceProps> = ({ language }) => {
   };
 
   return (
-    <section id="governance" className="py-20 bg-gray-50">
+    <section className="py-12 sm:py-16 lg:py-20 bg-gray-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true, amount: 0.3 }}
+          transition={{ duration: shouldReduceMotion ? 0.1 : 0.8 }}
           variants={containerVariants}
-          className="space-y-16"
+          className="text-center mb-8 sm:mb-12"
         >
           {/* Header */}
           <motion.div variants={itemVariants} className="text-center space-y-4 px-4">
@@ -251,19 +254,19 @@ const Governance: React.FC<GovernanceProps> = ({ language }) => {
               </h3>
               <p className="text-base sm:text-lg md:text-xl leading-relaxed opacity-90">
                 {language === 'en' 
-                  ? 'We pledge to maintain the highest standards of corporate governance, ensuring transparency, accountability, and sustainable value creation for all stakeholders.'
+              transition={{ duration: shouldReduceMotion ? 0.1 : 0.6, delay: shouldReduceMotion ? 0 : index * 0.1 }}
                   : 'Nous nous engageons à maintenir les plus hauts standards de gouvernance d\'entreprise, assurant transparence, responsabilité et création de valeur durable pour toutes les parties prenantes.'
-                }
+              className="bg-white p-6 sm:p-8 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 text-center group"
               </p>
               <div className="flex justify-center">
-                <motion.button
+                <principle.icon className="h-10 w-10 sm:h-12 sm:w-12 text-amber-600 mx-auto group-hover:text-amber-700 transition-colors duration-300" />
                   whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
+              <h3 className="text-lg sm:text-xl font-semibold text-gray-900 mb-3 sm:mb-4 group-hover:text-amber-600 transition-colors duration-300">
                   className="bg-white text-amber-600 px-6 sm:px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors touch-manipulation"
                 >
-                  {language === 'en' ? 'Learn More' : 'En Savoir Plus'}
-                </motion.button>
-              </div>
+              <p className="text-sm sm:text-base text-gray-600 leading-relaxed">
+          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-3 sm:mb-4">Governance & Ethics</h2>
+          <p className="text-base sm:text-lg lg:text-xl text-gray-600 max-w-3xl mx-auto px-4">
             </div>
           </motion.div>
         </motion.div>
@@ -272,4 +275,4 @@ const Governance: React.FC<GovernanceProps> = ({ language }) => {
   );
 };
 
-export default Governance;
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
