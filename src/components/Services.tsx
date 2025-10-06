@@ -8,6 +8,8 @@ interface ServicesProps {
 }
 
 const Services: React.FC<ServicesProps> = ({ language }) => {
+  const shouldReduceMotion = prefersReducedMotion();
+
   const content = {
     en: {
       title: 'Our Services',
@@ -42,8 +44,6 @@ const Services: React.FC<ServicesProps> = ({ language }) => {
         title: 'Why Choose Bridgelink?',
         items: [
           { icon: Clock, title: 'Fast Turnaround', description: 'Quick and efficient project delivery' },
-  const shouldReduceMotion = prefersReducedMotion();
-
           { icon: Award, title: '10+ Years Experience', description: 'Proven track record in mining industry' },
           { icon: Globe, title: 'Regional Expertise', description: 'Deep knowledge of Zambia & DRC markets' },
           { icon: Users, title: 'Expert Team', description: 'Highly qualified mining professionals' }
@@ -184,20 +184,22 @@ const Services: React.FC<ServicesProps> = ({ language }) => {
               {content[language].features.title}
             </h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 relative z-10">
-              {content[language].features.items.map((feature) => (
-              transition={{ duration: shouldReduceMotion ? 0.1 : 0.6, delay: shouldReduceMotion ? 0 : index * 0.1 }}
+              {content[language].features.items.map((feature, index) => (
+                <motion.div
                   key={feature.title}
-              className="bg-white p-6 sm:p-8 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 group"
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: shouldReduceMotion ? 0.1 : 0.6, delay: shouldReduceMotion ? 0 : index * 0.1 }}
                   whileHover={{ scale: 1.05 }}
-                  className="text-center space-y-3 sm:space-y-4 group"
+                  className="bg-white p-6 sm:p-8 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 group text-center space-y-3 sm:space-y-4"
                 >
                   <div className="w-12 h-12 sm:w-16 sm:h-16 bg-white rounded-2xl flex items-center justify-center mx-auto shadow-lg group-hover:shadow-xl transition-shadow">
-              <h3 className="text-lg sm:text-xl font-semibold text-gray-900 mb-3 sm:mb-4 group-hover:text-amber-600 transition-colors duration-300">
+                    <feature.icon className="w-6 h-6 sm:w-8 sm:h-8 text-amber-600" />
                   </div>
                   <h4 className="text-base sm:text-lg font-bold text-gray-900">{feature.title}</h4>
-              <p className="text-sm sm:text-base text-gray-600 leading-relaxed">
-          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-3 sm:mb-4">Our Services</h2>
-          <p className="text-base sm:text-lg lg:text-xl text-gray-600 max-w-3xl mx-auto px-4">
+                  <p className="text-sm sm:text-base text-gray-600 leading-relaxed">{feature.description}</p>
+                </motion.div>
+              ))}
             </div>
           </motion.div>
         </motion.div>
@@ -206,4 +208,4 @@ const Services: React.FC<ServicesProps> = ({ language }) => {
   );
 };
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+export default Services;
