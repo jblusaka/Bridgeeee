@@ -10,6 +10,8 @@ interface ProjectsProps {
 }
 
 const Projects: React.FC<ProjectsProps> = ({ language }) => {
+  const shouldReduceMotion = prefersReducedMotion();
+
   const content = {
     en: {
       title: 'Projects & Operations',
@@ -47,8 +49,6 @@ const Projects: React.FC<ProjectsProps> = ({ language }) => {
         {
           icon: Zap,
           title: 'Advanced Technology',
-  const shouldReduceMotion = prefersReducedMotion();
-
           description: 'State-of-the-art extraction and processing equipment for optimal efficiency'
         },
         {
@@ -61,7 +61,7 @@ const Projects: React.FC<ProjectsProps> = ({ language }) => {
     fr: {
       title: 'Projets & Opérations',
       subtitle: 'Opérations Actives en Zambie & RDC',
-      description: 'Nos opérations stratégiques s’étendent sur deux régions minières clés d’Afrique, où nous nous concentrons sur l’extraction durable et responsable des métaux précieux et des minéraux. En tirant parti de technologies avancées, de l’expertise qualifiée et des meilleures pratiques, nous visons à maximiser la valeur des ressources tout en minimisant l’impact environnemental. Notre engagement va au-delà de la production, favorisant le développement des communautés, la sécurité et la croissance économique à long terme dans les régions où nous opérons.',
+      description: 'Nos opérations stratégiques s'étendent sur deux régions minières clés d'Afrique, où nous nous concentrons sur l'extraction durable et responsable des métaux précieux et des minéraux. En tirant parti de technologies avancées, de l'expertise qualifiée et des meilleures pratiques, nous visons à maximiser la valeur des ressources tout en minimisant l'impact environnemental. Notre engagement va au-delà de la production, favorisant le développement des communautés, la sécurité et la croissance économique à long terme dans les régions où nous opérons.',
       locations: [
         {
           country: 'Zambie',
@@ -89,7 +89,7 @@ const Projects: React.FC<ProjectsProps> = ({ language }) => {
         {
           icon: TrendingUp,
           title: 'Croissance Durable',
-          description: 'Atteindre une croissance constante de la production d’année en année tout en respectant les normes les plus élevées de responsabilité environnementale et de pratiques durables.'
+          description: 'Atteindre une croissance constante de la production d'année en année tout en respectant les normes les plus élevées de responsabilité environnementale et de pratiques durables.'
         },
         {
           icon: Zap,
@@ -295,16 +295,15 @@ const Projects: React.FC<ProjectsProps> = ({ language }) => {
                     <CartesianGrid strokeDasharray="3 3" />
                     <XAxis dataKey="name" />
                     <YAxis />
-              transition={{ duration: shouldReduceMotion ? 0.1 : 0.6, delay: shouldReduceMotion ? 0 : index * 0.1 }}
+                    <Tooltip
                       formatter={(value, name) => [
-              className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 hover:-translate-y-1 group"
+                        `${value.toLocaleString()} ${chartData.find(item => item.name === name)?.unit || ''}`,
                         name
-              <div className="relative h-40 sm:h-48 overflow-hidden">
-                <OptimizedImage
+                      ]}
+                    />
                     <Bar dataKey="value" fill="#F59E0B" />
                   </BarChart>
-                  className="w-full h-full group-hover:scale-110 transition-transform duration-500"
-                  sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                </ResponsiveContainer>
               </div>
 
               {/* Production Stats */}
@@ -317,30 +316,37 @@ const Projects: React.FC<ProjectsProps> = ({ language }) => {
                   >
                     <div className="text-xl sm:text-2xl md:text-3xl font-bold mb-2" style={{ color: stat.color }}>
                       {stat.value.toLocaleString()}
-              <div className="p-4 sm:p-6">
-                <h3 className="text-lg sm:text-xl font-semibold text-gray-900 mb-2 sm:mb-3 group-hover:text-amber-600 transition-colors duration-300">
+                    </div>
                     <div className="text-sm sm:text-base md:text-lg font-semibold text-gray-900">{stat.name}</div>
+                    <div className="text-xs sm:text-sm text-gray-600">{stat.unit}</div>
                   </motion.div>
-                <p className="text-sm sm:text-base text-gray-600 mb-3 sm:mb-4 leading-relaxed">
+                ))}
               </div>
             </div>
           </motion.div>
-                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between text-xs sm:text-sm text-gray-500 mb-3 sm:mb-4 gap-2 sm:gap-0">
-                  <div className="flex items-center space-x-1 flex-shrink-0">
-                    <MapPin className="h-3 w-3 sm:h-4 sm:w-4" />
-            {content[language].highlights.map((highlight) => (
+
+          {/* Highlights */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
+            {content[language].highlights.map((highlight, index) => (
               <motion.div
-                  <div className="flex items-center space-x-1 flex-shrink-0">
-                    <Calendar className="h-3 w-3 sm:h-4 sm:w-4" />
+                key={highlight.title}
+                variants={itemVariants}
+                initial="hidden"
+                whileInView="visible"
+                transition={{ duration: shouldReduceMotion ? 0.1 : 0.6, delay: shouldReduceMotion ? 0 : index * 0.1 }}
                 whileHover={{ y: -5 }}
                 className="bg-white rounded-xl p-4 sm:p-6 shadow-lg border border-gray-100 text-center group hover:shadow-xl transition-all duration-300"
               >
                 <div className="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-r from-amber-500 to-orange-600 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform">
                   <highlight.icon className="w-8 h-8 text-white" />
                 </div>
-                  <ExternalLink className="h-3 w-3 sm:h-4 sm:w-4" />
-          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-3 sm:mb-4">Featured Projects</h2>
-          <p className="text-base sm:text-lg lg:text-xl text-gray-600 max-w-3xl mx-auto px-4">
+                <h3 className="text-lg sm:text-xl font-semibold text-gray-900 mb-2 sm:mb-3 group-hover:text-amber-600 transition-colors duration-300">
+                  {highlight.title}
+                </h3>
+                <p className="text-sm sm:text-base text-gray-600 mb-3 sm:mb-4 leading-relaxed">
+                  {highlight.description}
+                </p>
+              </motion.div>
             ))}
           </div>
         </motion.div>
@@ -349,4 +355,4 @@ const Projects: React.FC<ProjectsProps> = ({ language }) => {
   );
 };
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+export default Projects;
